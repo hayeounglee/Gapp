@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final SpeechToText _speechToText = SpeechToText();
+  final List<String> _speechResultsList = []; // List to store results
 
   bool _speechEnabled = false;
   String _wordsSpoken = "";
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _wordsSpoken = "${result.recognizedWords}";
       _confidenceLevel = result.confidence;
+      _speechResultsList.add(_wordsSpoken); // Add result to the list
     });
   }
 
@@ -96,6 +98,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _speechResultsList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_speechResultsList[index]),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
