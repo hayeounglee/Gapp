@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _wordsSpoken = "${result.recognizedWords}";
       _confidenceLevel = result.confidence;
-      _speechResultsList.add(result.recognizedWords); // Add result to the list
     });
   }
 
