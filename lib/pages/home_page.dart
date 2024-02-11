@@ -117,6 +117,10 @@ class _HomePageState extends State<HomePage> {
   void _restartGame() {
     setState(() {
       _gameEnabled = true;
+      _player1Score = 0;
+      _player2Score = 0;
+      _playerTurn = 0;
+      _confidenceLevel = 0;
       _speechResultsList.clear();
       _clearWordsSpoken();
     });
@@ -141,9 +145,9 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(16),
               child: Text(
                 _speechToText.isListening
-                    ? "listening..."
+                    ? "듣는 중"
                     : _speechEnabled
-                        ? "Tap the microphone to start listening..."
+                        ? "듣고 있지 않음xx. start 버튼 누르세요 "
                         : "Speech not available",
                 style: const TextStyle(fontSize: 20.0),
               ),
@@ -157,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       //timeLeft.toString(),
                       timeLeft == 0 ? 'DONE' : timeLeft.toString(),
-                      style: const TextStyle(fontSize: 70),
+                      style: const TextStyle(fontSize: 50),
                     ),
                     Text(
                       ' $_player1Score : $_player2Score',
@@ -201,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                 child: Text(
                   "Confidence: ${(_confidenceLevel * 100).toStringAsFixed(1)}%",
                   style: const TextStyle(
-                    fontSize: 30,
+                    fontSize: 15,
                     fontWeight: FontWeight.w200,
                   ),
                 ),
