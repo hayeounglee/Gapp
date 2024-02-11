@@ -36,7 +36,10 @@ class _HomePageState extends State<HomePage> {
 
   void _startListening() async {
     _clearWordsSpoken(); // _wordsSpoken 초기화
-    await _speechToText.listen(onResult: _onSpeechResult);
+    await _speechToText.listen(
+      onResult: _onSpeechResult,
+      localeId: 'en_US', // 영어로만 인식되도록 설정
+    );
     _startCoutDonwn(); // 초시계 작동
     setState(() {
       _confidenceLevel = 0;
