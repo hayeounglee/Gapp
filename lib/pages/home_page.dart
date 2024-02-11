@@ -11,12 +11,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final SpeechToText _speechToText = SpeechToText();
-  final List<String> _speechResultsList = []; // List to store results
-
+  final List<String> _speechResultsList = [];
   bool _speechEnabled = false;
   String _wordsSpoken = "";
   double _confidenceLevel = 0;
   bool _gameEnabled = true;
+
+  int _player1Score = 0;
+  int _player2Score = 0;
+  int _playerTurn = 0;
 
   @override
   void initState() {
@@ -53,6 +56,14 @@ class _HomePageState extends State<HomePage> {
       } else {
         _autoPressButton(); // 자동 누르기 호출, 다른 플레이어로 넘어감
         _speechResultsList.add(_wordsSpoken);
+        setState(() {
+          if (_playerTurn % 2 == 0) {
+            _player1Score++;
+          } else {
+            _player2Score++;
+          }
+          _playerTurn++;
+        });
       }
     });
   }
@@ -67,14 +78,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _wordsSpoken = "${result.recognizedWords}";
       _confidenceLevel = result.confidence;
-    });
-  }
-
-  void _restartGame() {
-    setState(() {
-      _gameEnabled = true; // 게임 재시작
-      _speechResultsList.clear(); // 리스트 초기화
-      _clearWordsSpoken();
     });
   }
 
@@ -108,6 +111,14 @@ class _HomePageState extends State<HomePage> {
       if (_gameEnabled) {
         _startListening();
       }
+    });
+  }
+
+  void _restartGame() {
+    setState(() {
+      _gameEnabled = true;
+      _speechResultsList.clear();
+      _clearWordsSpoken();
     });
   }
 
@@ -149,7 +160,10 @@ class _HomePageState extends State<HomePage> {
                       style: const TextStyle(fontSize: 70),
                     ),
                     Text(
-                      //게임 진행 여부 출력
+                      ' $_player1Score : $_player2Score',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    Text(
                       '게임 진행 여부 : ${_gameEnabled ? '진행 중' : '종료'}',
                       style: const TextStyle(fontSize: 10),
                     ),
